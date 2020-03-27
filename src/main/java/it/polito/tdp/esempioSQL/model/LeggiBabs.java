@@ -2,6 +2,7 @@ package it.polito.tdp.esempioSQL.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,13 +20,13 @@ public class LeggiBabs {
 			Connection conn = DriverManager.getConnection(jdbcURL);
 
 			// 3. eseguire un'interrogazione ES: conoscere i nomi delle stazioni
+            // 4.Query
+			String sql = "SELECT NAME FROM station WHERE landmark = ? " ;
+			PreparedStatement st = conn.prepareStatement(sql);
 
-			Statement st = conn.createStatement();
-			// 4.Query
-			String sql = "SELECT NAME FROM station";
-
-			ResultSet res = st.executeQuery(sql);
-
+			// si riferisce al ?
+			st.setString(1, "Palo Alto");
+			ResultSet res = st.executeQuery();
 			// next restituisce un boolean e mi dice se la riga esiste o no
 
 			while (res.next()) {
